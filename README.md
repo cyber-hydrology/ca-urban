@@ -4,13 +4,13 @@ cellular automata for urban catchment
 
 <br>
 
-## About the project
+## About The Project
 
 본 프로젝트는 CA(Cellular Automata)기반 고해상도 물순환, 침수 연계 해석 framework의 개발 방향 및 도심지에 적용한 CA기반 prototype 모형의 장단점을 평가합니다. 또한  최적의 지표수 흐름 방향 알고리즘 선정을 위해 3개의 다중 흐름 방향 알고리즘(D4, D8, 4+4N)을 정량적으로 비교하여 분석합니다.
 
 <br>
 
-## CA proto-type model 
+## CA Proto-Type Model 
 
 CA-based water circulation and inundation proto-type model
 
@@ -23,7 +23,7 @@ CA-based water circulation and inundation proto-type model
 
 <br>
 
-## Study area
+## Study Area
 미국 Oregon 주, Portland시 Downtown 일부 (2.2km2)
 
 <p align="left">
@@ -31,13 +31,19 @@ CA-based water circulation and inundation proto-type model
 </p>
 <br>
 
-## Install
+## Getting Started
+<p style="margin-bottom:30px;">This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.</p>
 
-Code file to run
+### Install
 
-```CA_cal_portland_revised_220412.R```
+<p style="margin-top:10px;">
 
+Code file to run :
 
+ ```CA_cal_portland_revised_220412.R```
+</p>
+
+<p style="margin-top:20px;">
 The package can be installed from CRAN :
 
 ```r
@@ -45,7 +51,9 @@ install.packages("raster")
 install.packages("tictoc")
 install.packages("sp")
 ```
+</p>
 
+<p style="margin-top:20px;">
 Using function R codes
 
 ```r
@@ -53,6 +61,8 @@ source('Neighbor_mat_OCC.R');
 source('STRG_surflow2.R');
 source('Transition_fun2.R')
 ```
+</p>
+
 <br>
 
 ## Code description
