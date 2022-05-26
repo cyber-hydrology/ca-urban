@@ -42,7 +42,7 @@ To create a local copy and run the  `CA_cal_portland_revised_220412.R` file, pe
 
 1. Clone the repo
 
-    ```r
+    ```bash
     git clone https://github.com/cyber-hydrology/ca-urban.git
     ```
 
