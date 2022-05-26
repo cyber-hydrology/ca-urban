@@ -32,27 +32,37 @@ CA-based water circulation and inundation proto-type model
 <br>
 
 ## Getting Started
-<p style="margin-bottom:30px;">This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.</p>
 
-### Install
+Here's how to set up a project locally. 
+To create a local copy and run the  `CA_cal_portland_revised_220412.R` file, perform the following steps.
 
-<p style="margin-top:10px;">
+<p style="margin-bottom:30px;"> </p>
 
-Code file to run :
+### Installation
 
- ```CA_cal_portland_revised_220412.R```
-</p>
+1. Clone the repo
 
-<p style="margin-top:20px;">
-The package can be installed from CRAN :
+    ```r
+    git clone https://github.com/cyber-hydrology/ca-urban.git
+    ```
 
-```r
-install.packages("raster")
-install.packages("tictoc")
-install.packages("sp")
-```
-</p>
+2. Open  `CA_cal_portland_revised_220412.R` file
 
+3. Install packages
+
+    ```r
+    install.packages("raster")
+    install.packages("tictoc")
+    install.packages("sp")
+    ```
+
+
+
+
+<!--<p style="margin-top:10px;">
+</p>  -->
+
+<!--  
 <p style="margin-top:20px;">
 Using function R codes
 
@@ -71,3 +81,4 @@ source('Transition_fun2.R')
 setwd('directory path')
 ```
 * Cellular Automata Setting 
+-->
