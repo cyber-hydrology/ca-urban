@@ -23,7 +23,7 @@ CA-based water circulation and inundation proto-type model
 
 <br>
 
-## Study Area
+## Study area
 미국 Oregon 주, Portland시 Downtown 일부 (2.2km2)
 
 <p align="left">
@@ -55,7 +55,7 @@ source('Transition_fun2.R')
 ```
 <br>
 
-## 코드 실행 설명
+## Code description
 * 본인의 working directory 설정
 ```r
 setwd('directory path')
