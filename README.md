@@ -19,7 +19,7 @@ CA-based water circulation and inundation proto-type model
 </p>
 
 - 격자 별 침수 깊이, 침투, 토양수분 저류, 지표 유출 등 물순환 요소 모의가 가능합니다.
-- fast reservoir와 slow reservoir를 통해 지표-지표하 상태 구현 및 단순화된 물수지 모형과 흐름 방향 알고리즘을 적용하여 실제 현장에서 발생하는 다중 피크 형태의 지표 유출을 묘사합니다.
+- fast reservoir와 slow reservoir를 통해 지표-지표하 상태 구현 및 단순화된 물수지 모형과 흐름 방향 알고리즘을 적용하여 실제 현장에서 발생하는 다중 피크 형태의 지표 유출을 모사합니다.
 
 <br>
 
