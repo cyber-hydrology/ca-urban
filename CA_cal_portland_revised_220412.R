@@ -1,4 +1,5 @@
 library(raster);library(tictoc);library(sp)
+# define directory
 setwd('C:/Users/82105/Documents/cellularAutomata/CA_model_OCC_220412')
 source('Neighbor_mat_OCC.R');source('STRG_surflow2.R');source('Transition_fun2.R')
 asc_file <- raster("clipped_raster_4m_big2.asc")
