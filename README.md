@@ -56,6 +56,9 @@ To create a local copy and run the  `CA_cal_portland_revised_220412.R` file, pe
     install.packages("sp")
     ```
 
+### Contribution
+
+This study was conducted as part of the open innovation R&D (21-BC-001) project of the Korea Water Resources Corporation (K-water).
 
 
 
