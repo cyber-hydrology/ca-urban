@@ -1,7 +1,7 @@
 # CA-urban
 
 <p align="left">
-    <img src="https://user-images.githubusercontent.com/99592576/195239646-2d08567d-e1d9-4083-81b2-f99f71fc0d04.jpg" width="200px" height="auto"/>
+    <img src="https://user-images.githubusercontent.com/99592576/195240212-fb84d91a-45cf-4c99-9e70-84e313a0a201.png" width="200px" height="auto"/>
 </p>
 
 <br>
