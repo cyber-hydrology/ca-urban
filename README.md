@@ -1,6 +1,8 @@
 # CA-urban
 
-cellular automata for urban catchment
+<p align="left">
+    <img src="https://user-images.githubusercontent.com/99592576/170301234-4406eafe-e1b9-46ab-8bbf-e50ee23ca435.png" width="600px" height="auto"/>
+</p>
 
 <br>
 
@@ -15,7 +17,7 @@ cellular automata for urban catchment
 CA-based water circulation and inundation proto-type model
 
 <p align="left">
-    <img src="https://user-images.githubusercontent.com/99592576/170301234-4406eafe-e1b9-46ab-8bbf-e50ee23ca435.png" width="600px" height="auto"/>
+    <img src="https://user-images.githubusercontent.com/99592576/195239646-2d08567d-e1d9-4083-81b2-f99f71fc0d04.jpg" width="600px" height="auto"/>
 </p>
 
 - 격자 별 침수 깊이, 침투, 토양수분 저류, 지표 유출 등 물순환 요소 모의가 가능합니다.
