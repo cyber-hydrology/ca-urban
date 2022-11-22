@@ -1,13 +1,16 @@
 library(raster);library(tictoc);library(sp)
 p_work <- "C:/CA/git/ca-urban-git"
+dem_filename <- "clipped_portland_4m_dem"
+rainfall_filename <- "runoffEvent_120928_sample"
 
 setwd(p_work)
 source('Neighbor_mat_OCC.R');source('STRG_surflow2.R');source('Transition_fun2.R')
-asc_file <- raster(paste0(p_work,"/input/clipped_portland_4m_dem.asc"))
+asc_file <- raster(paste0(p_work,"/input/",dem_filename,".asc"))
 range_raster <- as.matrix(extent(asc_file))
 plot(asc_file)
 
-dem <- as.matrix(asc_file$clipped_portland_4m_dem)
+# dem <- as.matrix(names(asc_file))
+dem <- as.matrix(asc_file)
 dem <- dem - min(dem, na.rm = T)
 x_dem <- seq(from=range_raster[1,1], to=range_raster[1,2],length = ncol(dem))
 y_dem <- seq(from=range_raster[2,2], to=range_raster[2,1],length = nrow(dem))
@@ -47,8 +50,10 @@ theta_Sat_Sur_dem    <- matrix(NA, num_row, num_col) # [mm]
 rownames(theta_Sat_Sur_dem) <- y_dem; colnames(theta_Sat_Sur_dem) <- x_dem
 
 ##### Parameters in Waterbalance setting #########################################################################################
-Date_data <- c(120928)
-hydro_data <- read.csv(paste0(p_work,'/input/runoffEvent_',Date_data,'_sample.csv'))
+# Date_data <- c(120928)
+# hydro_data <- read.csv(paste0(p_work,'/input/runoffEvent_',Date_data,'_sample.csv'))
+# rainfall_filename <- runoffEvent_120928_sample
+hydro_data <- read.csv(paste0(p_work,'/input/',rainfall_filename,'.csv'))
 hydro_data$Rain <- hydro_data$Rain*10
 manning_coeff_sur <- c(0.035);
 LAI <- c(3.76) # Leaf Area Index

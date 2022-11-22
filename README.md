@@ -34,16 +34,22 @@ CA-based water circulation and inundation proto-type model
 </p>
 <br>
 
-## Getting Started
+<br>
+
+# Getting Started
 
 Here's how to set up a project locally. 
-To create a local copy and run the  `CA_cal_portland_revised_220412.R` file, perform the following steps.
+To create a local copy and run the  `CA_cal_portland_revised_221123.R` file, perform the following steps.
 
 <p style="margin-bottom:30px;"> </p>
 
-### Installation
+## **Settings**
+Copy the code from the project to your local environment and set up the environment so that the code can run. Run the code after setup to obtain a simulated result for the sample input.
 
-1. Clone the repo
+
+<br>
+
+1. Clone the repo (If you don't use Git, download the code zip file.)
 
     ```bash
     git clone https://github.com/cyber-hydrology/ca-urban.git
@@ -64,7 +70,38 @@ To create a local copy and run the  `CA_cal_portland_revised_220412.R` file, pe
     p_work <- "{your working directory path}"
     ```
 
+5. Now you are ready. Go to run.
 
+
+<br>
+
+
+## **Custom input data**
+User's DEM(DSM) data and rainfall data can be used as input data for code.
+
+
+<br>
+
+> DEM(DSM) data
+1. Put your file(.asc) in the `input` folder (just ASCII file)<br>
+▫️ You can put an input file with various resolutions for the area you want.
+
+2. Modify the name of your DEM(DSM) data in the code
+    ```r
+    dem_filename <- "{your DEM or DSM file name without extention}"
+    ```
+
+
+<br>
+
+> Rainfall data
+1. Put your file(.csv) in the `input` folder (just csv file) <br>
+▫️ You can download rainfall data for the region and period you want from [WAMIS](http://wamis.go.kr/) and [기상자료개방포털](https://data.kma.go.kr/cmmn/main.do).
+
+2. Modify the name of your rainfall data in the code
+    ```r
+    raianfall_filename <- "{your rainfall file name without extention}"
+    ```
 
 <!--<p style="margin-top:10px;">
 </p>  -->
