@@ -52,7 +52,7 @@ To create a local copy and run the  `CA_cal_portland_revised_230208.R` file, pe
     git clone https://github.com/cyber-hydrology/ca-urban.git
     ```
 
-2. Open  `CA_cal_portland_revised_220412.R` file
+2. Open  `CA_cal_portland_revised_230208.R` file
 
 3. Install packages
 
