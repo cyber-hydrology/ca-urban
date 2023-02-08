@@ -1,4 +1,4 @@
-Transition_fun2 <- function(flowdir, manning_coeff, resolution_cell, time_step, neighbor_cell, point_cell, updatecell_dem){
+Transition_fun4 <- function(flowdir, manning_coeff, resolution_cell, time_step, neighbor_cell, point_cell, updatecell_dem){
   
   manning_coeff <- manning_coeff_sur
   neighbor_cell <- sur_neighbor_cell
@@ -51,7 +51,16 @@ Transition_fun2 <- function(flowdir, manning_coeff, resolution_cell, time_step, 
       H_1 <- as.numeric(cal_neighbor_cell[2,p]);
       H_0 <- as.numeric(point_cell[2,]);
       h_0 <- as.numeric(point_cell[3,]);
-      cal_neighbor_time <- (manning_coeff*distance)/((h_0^2/3)*sqrt((H_0-H_1)/distance))
+      
+      Vman <- ((h_0^(2/3))*((H_0-H_1)/distance)^(1/2))/manning_coeff
+      Vcrt <- (9.81*(H_0-H_1))^(1/2)
+      Vcell <- min(Vman, Vcrt)
+      cal_neighbor_time <- distance/Vcell
+
+      # print(paste("Vman :",Vman))
+      # print(paste("Vcrt :",Vcrt))
+      # print(paste("Vcell :",Vcell))
+      
       
       # checking whether sufficient time for flowing or not.
       if(time_step < cal_neighbor_time){
@@ -66,18 +75,20 @@ Transition_fun2 <- function(flowdir, manning_coeff, resolution_cell, time_step, 
     # checking whether sufficient water for flowing or not.
     if(h_0 < flow_total){
       for(p in 1:length(flow_neighbor_cell)){
-        cal_neighbor_cell[4,p] <- as.numeric(cal_neighbor_cell[4,p])*(h_0/flow_total)
+        fmin <- which.min(as.numeric(cal_neighbor_cell[4,p]))
+        cal_neighbor_cell[4,p] <- as.numeric(cal_neighbor_cell[4,p])/(flow_total + fmin)
       }
     }else{
       for(p in 1:length(flow_neighbor_cell)){
         cal_neighbor_cell[4,p] <- as.numeric(cal_neighbor_cell[4,p])
       }
     }
-    
+
     # calculating flow amounts from point cell to each neighbor cell
     for(q in 1:length(flow_neighbor_cell)){
       neighbor_cell[,flow_neighbor_cell[q]] <- cal_neighbor_cell[,q]
     }
+
     ##### Third transition rule #################################################################################
     ##### updating surface cell state ###########################################################################
     for(r in 1:ncol(cal_neighbor_cell)){
