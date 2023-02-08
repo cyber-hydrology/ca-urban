@@ -1,10 +1,10 @@
-# CA-urban
+# CA-Urban
 
-cellular automata for urban catchment
+Cellular Automata for Urban catchment
 
 <br>
 
-## About The Project
+## About The Study
 
 본 프로젝트는 CA(Cellular Automata)기반 고해상도 물순환, 침수 연계 해석 framework의 개발 방향 및 도심지에 적용한 CA기반 prototype 모형의 장단점을 평가합니다. 또한  최적의 지표수 흐름 방향 알고리즘 선정을 위해 3개의 다중 흐름 방향 알고리즘(D4, D8, 4+4N)을 정량적으로 비교하여 분석합니다.
 
