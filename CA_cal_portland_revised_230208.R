@@ -1,10 +1,14 @@
-library(raster);library(tictoc);library(sp)
+library(raster);library(tictoc);library(sp);library(RColorBrewer)
+
+##### Input data setting for CA-Urban
+# If you write down the input data for simulation in advance, it will be convenient to run the code.
 p_work <- "C:/CA/git/ca-urban-git"
-dem_filename <- "clipped_portland_4m_dem"
-rainfall_filename <- "runoffEvent_120928_sample"
+dem_filename <- "fundem-9m-small" # Enter the file name for the desired resolution
+rainfall_filename <- "runoffEvent_120928_sample_1h"
+resolution <- "9m" #write down the resolution
 
 setwd(p_work)
-source('Neighbor_mat_OCC.R');source('STRG_surflow2.R');source('Transition_fun2.R')
+source('Neighbor_mat_OCC.R');source('STRG_surflow2.R');source('Transition_fun4.R')
 asc_file <- raster(paste0(p_work,"/input/",dem_filename,".asc"))
 range_raster <- as.matrix(extent(asc_file))
 plot(asc_file)
@@ -30,8 +34,8 @@ cm_to_mm <- c(10)
 ##### Time parameter setting for CA calculation
 # The units of all values, calculations, functions are based on seconds for time scale and mm for space scale
 flowdir <- c("D4") # D8, D4, 4+4N
-time_step <- c(30) # [seconds] Time step for iteration
-time_interval <- c(450) # [seconds] Time interval in observation data
+time_step <- c(10) # [seconds] Time step for iteration
+time_interval <- c(900) # [seconds] Time interval in observation data
 
 ##### Matrix setting for CA calculation ##########################################################################################
 num_col <- ncol(dem); num_row <- nrow(dem)
@@ -54,7 +58,7 @@ rownames(theta_Sat_Sur_dem) <- y_dem; colnames(theta_Sat_Sur_dem) <- x_dem
 # hydro_data <- read.csv(paste0(p_work,'/input/runoffEvent_',Date_data,'_sample.csv'))
 # rainfall_filename <- runoffEvent_120928_sample
 hydro_data <- read.csv(paste0(p_work,'/input/',rainfall_filename,'.csv'))
-hydro_data$Rain <- hydro_data$Rain*10
+# hydro_data$Rain <- hydro_data$Rain*10
 manning_coeff_sur <- c(0.035);
 LAI <- c(3.76) # Leaf Area Index
 P_max <- 0.935+0.498*LAI+0.00575*LAI^2 # [mm]
@@ -74,9 +78,11 @@ Depth_Sur=c(5)*cm_to_mm; # [cm] Soil depth
 E_Sat_Sur_cons_val <- c(60) # Effective saturation must exceed 0
 
 E_Sat_Sur_cons = rep(E_Sat_Sur_cons_val, num_row); 
-dir.create(paste0(p_work,"/Plot/Plots_",flowdir,time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat'))
-setwd(paste0(p_work,"/Plot/Plots_",flowdir,time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat'))
-
+dir.create(paste0(p_work,"/Plot/Plots_",flowdir,"_",resolution,time_step,
+                  "sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat'))
+setwd(paste0(p_work,"/Plot/Plots_",flowdir,"_",resolution,time_step,
+             "sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat')) 
+  
 ##### Setting for initial conditions of soil texture, water balance ##############################################################
 residual_sm_sur <- c(5) #[vol.%]
 saturated_sm_sur <- c(50) #[vol.%]
@@ -160,7 +166,7 @@ for(time in 1:c(nrow(hydro_data)*time_interval/time_step)){
 
   Infiltra_Total <- Infiltra_Total + (Infiltra_Sum/(num_row * num_col)) # Infiltration update
   sur_cellheight_dem <- sur_dem + sur_storage_dem + sur_waterdepth_dem # Cellheight update
-  sur_updatecell_dem <- matrix(0, num_row, num_col) # Updatecell update
+  sur_updatecell_dem <- matrix(0, num_row, num_col) # Updatecell update = updatecell initialize
   rownames(sur_updatecell_dem) <- as.numeric(rownames(sur_dem))
   colnames(sur_updatecell_dem) <- as.numeric(colnames(sur_dem))
   
@@ -177,33 +183,46 @@ for(time in 1:c(nrow(hydro_data)*time_interval/time_step)){
         sur_neighbor_cell <- Neighbor_mat(x,y,num_col,num_row,sur_neighbor_cell,
                                           sur_dem,sur_cellheight_dem,sur_waterdepth_dem)
         sur_point_cell <- as.matrix(sur_neighbor_cell[,5]); sur_neighbor_cell <- sur_neighbor_cell[,-5]
-        sur_updatecell_dem <- Transition_fun2(flowdir,manning_coeff_sur,resolution_cell,
+        sur_updatecell_dem <- Transition_fun4(flowdir,manning_coeff_sur,resolution_cell,
                                              time_step,sur_neighbor_cell,sur_point_cell,sur_updatecell_dem)
   }}
   ################################################################################################################################
   ##### Export PNG file for water depth ##########################################################################################
   ################################################################################################################################
   png(paste0(time_step,"sec_",time,"_plot.png"),width=4000,height=2000,res=200)
-  layout(matrix(c(1,2,3,4), 2, 2, byrow=F))
-  rast <- raster(sur_dem)
-  plot(rast, col=terrain.colors(30), main="sur_dem")
-  rast <- raster(sur_storage_dem)
-  plot(rast, col=terrain.colors(30), main="sur_Strg")
+  cols <- brewer.pal(9, "YlGnBu")
+  cols <- rev(cols)
+  cols
+  pal <- colorRampPalette(cols)
+  
+  par(mfrow=c(1,2))    # 1row 2col
+  # layout(matrix(c(1,2,3,4), 2, 2, byrow=F))
+  # rast <- raster(sur_dem)
+  # plot(rast, col=terrain.colors(30), main="sur_dem")
+  # rast <- raster(sur_storage_dem)
+  # plot(rast, col=terrain.colors(30), main="sur_Strg")
+  
   rast <- raster(sur_waterdepth_dem)
-  plot(rast, col=terrain.colors(11), main="sur_waterdepth_dem",breaks=c(0,400,800,1200,1600,2000,2400,2800,3200,3600,4000))
+  plot(rast, col=pal(11), main="sur_waterdepth_dem",breaks=c(0,100,200,300,400,500,600,700,800,900,1000))
+  # plot(rast, col=pal(30), main="sur_waterdepth_dem")
   rast <- raster(sur_updatecell_dem)
-  plot(rast, col=terrain.colors(30), main="sur_updatecell_dem")
+  plot(rast, col=pal(30), main="sur_updatecell_dem")
   dev.off()
 
   ################################################################################################################################
   ##### Undating waterdepth and check error ######################################################################################
   ################################################################################################################################
+  # sur_waterdepth_dem <- sur_updatecell_dem + sur_waterdepth_dem;
+  # if(c(min(sur_waterdepth_dem)+0.0001) == c(0) ){
+  # if(c(min(sur_waterdepth_dem)+0.0001) < c(0) ){
+  #   print("there is negative values in waterdepth")
+  #   break
+  # }
+  
   sur_waterdepth_dem <- sur_updatecell_dem + sur_waterdepth_dem; 
   if(c(min(sur_waterdepth_dem)+0.0001) < c(0) ){
-    print("there is negative values in waterdepth")
-    break
+    sur_waterdepth_dem[which.min(sur_waterdepth_dem)] <- 0
   }
-
 }
 
 Rain_space <- sum((hydro_data$Rain/m_to_mm)*ncol(sur_dem)*(resolution_cell/m_to_mm)*nrow(sur_dem)*(resolution_cell/m_to_mm)) # [m3]
@@ -235,9 +254,9 @@ water_balance_mat[1,] <- c(round(Rain_space,2),round(Intercep_space,2),round(Inf
 #                              asm_hydro_data$WL,c(3*10^(-5))*exp(36.139*asm_hydro_data$WL)),runoff_timeseries)
 
 write.csv(water_balance_mat,
-          paste0(p_work,'/Results/WaterBudget_',time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat.csv'))
+          paste0(p_work,'/Results/WaterBudget_',resolution,time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat.csv'))
 write.csv(runoff_timeseries,
-          paste0(p_work,'/Results/runoff_timeseries_',time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat.csv'))
+          paste0(p_work,'/Results/runoff_timeseries_',resolution,time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat.csv'))
 # write.csv(sur_sm_timeseries,
 #           paste0(p_work,'/Results/sur_sm_timeseries_',time_step,"sec_0",K_Sur*100,'K',E_Sat_Sur_cons_val,'%E_Sat.csv'))
 CA_results <- 
